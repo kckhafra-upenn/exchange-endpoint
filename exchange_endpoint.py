@@ -41,6 +41,8 @@ def check_sig(payload,signature,pubKey):
     eth_encoded_msg = eth_account.messages.encode_defunct(text=payload)
     eth_sig_obj = eth_account.Account.sign_message(eth_encoded_msg,eth_sk)
 
+    print("ETH",eth_sig_obj)
+
 def fill_order(order,txes=[]):
     pass
   
@@ -87,7 +89,9 @@ def trade():
         # TODO: Check the signature
         if(content['payload']['platform']=="Ethereum"):
             print("VERIFY")
-            check_sig(payload,signature,pubKey)
+            if(check_sig(payload,signature,pubKey))
+                g.session.add(payload)
+                g.session.commit()
         # TODO: Add the order to the database
         
         # TODO: Fill the order
