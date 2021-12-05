@@ -31,8 +31,16 @@ def shutdown_session(response_or_exc):
 
 """ Suggested helper methods """
 
-def check_sig(payload,sig):
+def check_sig(payload,signature,pubKey):
     pass
+    eth_account.Account.enable_unaudited_hdwallet_features()
+    acct, mnemonic = eth_account.Account.create_with_mnemonic()
+    print("KEY",acct.key)
+    eth_pk = pubKey
+    eth_sk = signature
+
+    eth_encoded_msg = eth_account.messages.encode_defunct(text=payload)
+    eth_sig_obj = eth_account.Account.sign_message(eth_encoded_msg,eth_sk)
 
 def fill_order(order,txes=[]):
     pass
@@ -71,9 +79,15 @@ def trade():
             
         #Your code here
         #Note that you can access the database session using g.session
-
-        # TODO: Check the signature
+        signature = content['sig']
+        payload = json.dumps(content['payload'])
+        pubKey = content['payload']['sender_pk']
+        print(payload)
         
+        # TODO: Check the signature
+        if(content['payload']['platform']=="Ethereum"):
+            print("VERIFY")
+            check_sig(payload,signature,pubKey)
         # TODO: Add the order to the database
         
         # TODO: Fill the order
