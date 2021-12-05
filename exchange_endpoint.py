@@ -88,17 +88,23 @@ def trade():
         #Note that you can access the database session using g.session
         signature = content['sig']
         payload = json.dumps(content['payload'])
-        pubKey = content['payload']['sender_pk']
+        senderPubKey = content['payload']['sender_pk']
+        receiver = content['payload']['receiver_pk']
+        buyCurrency = content['payload']['buy_currency']
+        sellCurrency = content['payload']['sell_currency']
+        buyAmount = content['payload']['buy_amount']
+        sellAmount = content['payload']['sell_amount']
         print(payload)
         
         # TODO: Check the signature
         if(content['payload']['platform']=="Ethereum"):
             print("VERIFY")
-            if(check_sig(payload,signature,pubKey)):
-                g.session.add(payload)
-                g.session.commit()
+            if(check_sig(payload,signature,senderPubKey)):
+                
         # TODO: Add the order to the database
-        
+                order = Order(receiver_pk=receiver,sender_pk=senderPubKey,buy_currency=buyCurrency,sell_currency=sellCurrency,buy_amount=buyAMount,sell_amount=sellAmount)
+                g.session.add(order)
+                g.session.commit()
         # TODO: Fill the order
         
         # TODO: Be sure to return jsonify(True) or jsonify(False) depending on if the method was successful
