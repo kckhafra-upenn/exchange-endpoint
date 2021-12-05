@@ -31,20 +31,23 @@ def shutdown_session(response_or_exc):
 
 """ Suggested helper methods """
 
-def check_sig(payload,signature,pubKey):
-    eth_account.Account.enable_unaudited_hdwallet_features()
-    acct, mnemonic = eth_account.Account.create_with_mnemonic()
-    print("KEY",acct.key)
-    eth_pk = acct.address
-    eth_sk = signature
+def check_sig(payload,signature):
+    if(content['payload']['platform']=="Ethereum"):
+        eth_account.Account.enable_unaudited_hdwallet_features()
+        acct, mnemonic = eth_account.Account.create_with_mnemonic()
+        senderPubKey = payload['sender_pk']
+        print("senderPubKey",senderPubKey)
+        p=json.dumps(payload)
+        eth_pk = senderPubKey
+        eth_sk = signature
 
-    eth_encoded_msg = eth_account.messages.encode_defunct(text=payload)
-    eth_sig_obj = eth_account.Account.sign_message(eth_encoded_msg,eth_sk)
-    if eth_account.Account.recover_message(eth_encoded_msg,signature=eth_sig_obj.signature.hex()) == eth_pk:
-        print( "Eth sig verifies!" )
-        return True
-    else 
-        return False
+        eth_encoded_msg = eth_account.messages.encode_defunct(text=p)
+        eth_sig_obj = eth_account.Account.sign_message(eth_encoded_msg,eth_sk)
+        if eth_account.Account.recover_message(eth_encoded_msg,signature=eth_sig_obj.signature.hex()) == eth_pk:
+            print( "Eth sig verifies!" )
+            return True
+        else 
+            return False
 
     print("ETH",eth_sig_obj)
 
@@ -87,7 +90,7 @@ def trade():
         #Your code here
         #Note that you can access the database session using g.session
         signature = content['sig']
-        payload = json.dumps(content['payload'])
+        payload = content['payload']
         senderPubKey = content['payload']['sender_pk']
         receiver = content['payload']['receiver_pk']
         buyCurrency = content['payload']['buy_currency']
@@ -99,12 +102,11 @@ def trade():
         # TODO: Check the signature
         # TODO: Add the order to the database
         # TODO: Fill the order
-        if(content['payload']['platform']=="Ethereum"):
-            print("VERIFY")
-            if(check_sig(payload,signature,senderPubKey)):
-                order = Order(receiver_pk=receiver,sender_pk=senderPubKey,buy_currency=buyCurrency,sell_currency=sellCurrency,buy_amount=buyAMount,sell_amount=sellAmount)
-                g.session.add(order)
-                g.session.commit()
+        
+        if(check_sig(payload,signature)):
+            order = Order(receiver_pk=receiver,sender_pk=senderPubKey,buy_currency=buyCurrency,sell_currency=sellCurrency,buy_amount=buyAMount,sell_amount=sellAmount)
+            g.session.add(order)
+            g.session.commit()
         
         
         # TODO: Be sure to return jsonify(True) or jsonify(False) depending on if the method was successful
