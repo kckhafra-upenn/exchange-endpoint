@@ -11,6 +11,7 @@ from sqlalchemy.orm import load_only
 from datetime import datetime
 import sys
 
+
 from models import Base, Order, Log
 engine = create_engine('sqlite:///orders.db')
 Base.metadata.bind = engine
@@ -32,7 +33,7 @@ def shutdown_session(response_or_exc):
 """ Suggested helper methods """
 
 def check_sig(payload,signature):
-    if(content['payload']['platform']=="Ethereum"):
+    if(payload['platform']=="Ethereum"):
         eth_account.Account.enable_unaudited_hdwallet_features()
         acct, mnemonic = eth_account.Account.create_with_mnemonic()
         senderPubKey = payload['sender_pk']
@@ -46,8 +47,19 @@ def check_sig(payload,signature):
         if eth_account.Account.recover_message(eth_encoded_msg,signature=eth_sig_obj.signature.hex()) == eth_pk:
             print( "Eth sig verifies!" )
             return True
-        else 
+        else: 
             return False
+    else if(payload['platform']=="Algorand"):
+        algo_sk, algo_pk = payload['sender_pk']
+        algo_sig_str = algosdk.util.sign_bytes(payload.encode('utf-8'),algo_sk)
+
+        if algosdk.util.verify_bytes(payload.encode('utf-8'),algo_sig_str,algo_pk):
+            print( "Algo sig verifies!" )
+            return True
+        )
+        return False
+    else:
+        return False
 
     print("ETH",eth_sig_obj)
 
