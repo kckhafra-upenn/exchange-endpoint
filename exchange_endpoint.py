@@ -32,7 +32,6 @@ def shutdown_session(response_or_exc):
 """ Suggested helper methods """
 
 def check_sig(payload,signature,pubKey):
-    pass
     eth_account.Account.enable_unaudited_hdwallet_features()
     acct, mnemonic = eth_account.Account.create_with_mnemonic()
     print("KEY",acct.key)
@@ -46,9 +45,10 @@ def fill_order(order,txes=[]):
     pass
   
 def log_message(d):
-    # Takes input dictionary d and writes it to the Log table
-    # Hint: use json.dumps or str() to get it in a nice string form
-    pass
+    payload = json.dumps(d['payload'])
+    log_obj = Log(message=payload)
+    g.session.add(log_obj)
+    g.session.commit()
 
 """ End of helper methods """
 
