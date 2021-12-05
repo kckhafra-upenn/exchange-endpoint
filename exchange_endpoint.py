@@ -49,14 +49,13 @@ def check_sig(payload,signature):
             return True
         else: 
             return False
-    else if(payload['platform']=="Algorand"):
+    elif(payload['platform']=="Algorand"):
         algo_sk, algo_pk = payload['sender_pk']
         algo_sig_str = algosdk.util.sign_bytes(payload.encode('utf-8'),algo_sk)
 
         if algosdk.util.verify_bytes(payload.encode('utf-8'),algo_sig_str,algo_pk):
             print( "Algo sig verifies!" )
             return True
-        )
         return False
     else:
         return False
@@ -115,10 +114,11 @@ def trade():
         # TODO: Add the order to the database
         # TODO: Fill the order
         
-        if(check_sig(payload,signature)):
-            order = Order(receiver_pk=receiver,sender_pk=senderPubKey,buy_currency=buyCurrency,sell_currency=sellCurrency,buy_amount=buyAMount,sell_amount=sellAmount)
-            g.session.add(order)
-            g.session.commit()
+        # if(check_sig(payload,signature)):
+        order = Order(receiver_pk=receiver,sender_pk=senderPubKey,buy_currency=buyCurrency,sell_currency=sellCurrency,buy_amount=buyAmount,sell_amount=sellAmount)
+        print("ORDER: ",order)
+        g.session.add(order)
+        g.session.commit()
         
         
         # TODO: Be sure to return jsonify(True) or jsonify(False) depending on if the method was successful
