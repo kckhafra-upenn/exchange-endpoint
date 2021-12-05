@@ -40,6 +40,11 @@ def check_sig(payload,signature,pubKey):
 
     eth_encoded_msg = eth_account.messages.encode_defunct(text=payload)
     eth_sig_obj = eth_account.Account.sign_message(eth_encoded_msg,eth_sk)
+    if eth_account.Account.recover_message(eth_encoded_msg,signature=eth_sig_obj.signature.hex()) == eth_pk:
+        print( "Eth sig verifies!" )
+        return True
+    else 
+        return False
 
     print("ETH",eth_sig_obj)
 
