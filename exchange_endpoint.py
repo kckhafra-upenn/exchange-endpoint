@@ -35,7 +35,7 @@ def check_sig(payload,signature,pubKey):
     eth_account.Account.enable_unaudited_hdwallet_features()
     acct, mnemonic = eth_account.Account.create_with_mnemonic()
     print("KEY",acct.key)
-    eth_pk = acct.address
+    eth_pk = pubKey
     eth_sk = signature
 
     eth_encoded_msg = eth_account.messages.encode_defunct(text=payload)
@@ -97,15 +97,15 @@ def trade():
         
         
         # TODO: Check the signature
+        # TODO: Add the order to the database
+        # TODO: Fill the order
         if(content['payload']['platform']=="Ethereum"):
             print("VERIFY")
             if(check_sig(payload,signature,senderPubKey)):
-                
-        # TODO: Add the order to the database
                 order = Order(receiver_pk=receiver,sender_pk=senderPubKey,buy_currency=buyCurrency,sell_currency=sellCurrency,buy_amount=buyAMount,sell_amount=sellAmount)
                 g.session.add(order)
                 g.session.commit()
-        # TODO: Fill the order
+        
         
         # TODO: Be sure to return jsonify(True) or jsonify(False) depending on if the method was successful
         return jsonify(True)
