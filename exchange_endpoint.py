@@ -94,7 +94,7 @@ def trade():
         sellCurrency = content['payload']['sell_currency']
         buyAmount = content['payload']['buy_amount']
         sellAmount = content['payload']['sell_amount']
-        print(payload)
+        
         
         # TODO: Check the signature
         if(content['payload']['platform']=="Ethereum"):
