@@ -35,7 +35,7 @@ def check_sig(payload,signature,pubKey):
     eth_account.Account.enable_unaudited_hdwallet_features()
     acct, mnemonic = eth_account.Account.create_with_mnemonic()
     print("KEY",acct.key)
-    eth_pk = pubKey
+    eth_pk = acct.address
     eth_sk = signature
 
     eth_encoded_msg = eth_account.messages.encode_defunct(text=payload)
