@@ -37,7 +37,8 @@ def check_sig(payload,signature):
         eth_account.Account.enable_unaudited_hdwallet_features()
         acct, mnemonic = eth_account.Account.create_with_mnemonic()
         senderPubKey = payload['sender_pk']
-        p=json.dumps(payload)
+        p=""
+        # p=json.dumps(payload)
         eth_pk = senderPubKey
         eth_sk = signature
         # eth_pk = acct.address
@@ -46,22 +47,23 @@ def check_sig(payload,signature):
         eth_encoded_msg = eth_account.messages.encode_defunct(text=p)
         eth_sig_obj = eth_account.Account.sign_message(eth_encoded_msg,eth_sk)
         if eth_account.Account.recover_message(eth_encoded_msg,signature=eth_sig_obj.signature.hex()) == eth_pk:
-            return jsonify(True)
+            return True
         else: 
-            return jsonify(False)
+            return False
     elif(payload['platform']=="Algorand"):
-        p=json.dumps(payload)
+        p=""
+        # p=json.dumps(payload)
         # algo_sk, algo_pk = algosdk.account.generate_account()
         algo_sk = payload['sender_pk']
         algo_pk= payload['sender_pk']
         algo_sig_str = algosdk.util.sign_bytes(p.encode('utf-8'),algo_sk)
 
         if algosdk.util.verify_bytes(p.encode('utf-8'),algo_sig_str,algo_pk):
-            return jsonify(True)
+            return True
         else:
-            return jsonify(False)
+            return False
     else:
-        return jsonify(False)
+        return False
 
 
 def fill_order(order,txes=[]):
