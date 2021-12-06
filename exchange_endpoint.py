@@ -117,8 +117,8 @@ def trade():
             g.session.add(order)
             g.session.commit()
             return jsonify(True)
-        else:
-            return jsonify(False)
+        # else:
+        #     return jsonify(False)
         
         # TODO: Be sure to return jsonify(True) or jsonify(False) depending on if the method was successful
         return jsonify(False)
