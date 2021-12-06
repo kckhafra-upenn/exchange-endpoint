@@ -112,7 +112,7 @@ def trade():
         # TODO: Add the order to the database
         # TODO: Fill the order
         
-        if(check_sig(payload,signature)==True):
+        if(check_sig(payload,signature)):
             order = Order(receiver_pk=receiver,sender_pk=senderPubKey,buy_currency=buyCurrency,sell_currency=sellCurrency,buy_amount=buyAmount,sell_amount=sellAmount)
             g.session.add(order)
             g.session.commit()
@@ -121,7 +121,7 @@ def trade():
             return jsonify(False)
         
         # TODO: Be sure to return jsonify(True) or jsonify(False) depending on if the method was successful
-   
+        return jsonify(False)
 
 @app.route('/order_book')
 def order_book():
