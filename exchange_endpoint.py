@@ -49,14 +49,14 @@ def check_sig(payload,signature):
             return True
         else: 
             return False
-    elif(payload['platform']=="Algorand"):
-        algo_sk, algo_pk = payload['sender_pk']
-        algo_sig_str = algosdk.util.sign_bytes(payload.encode('utf-8'),algo_sk)
+    # elif(payload['platform']=="Algorand"):
+    #     algo_sk, algo_pk = payload['sender_pk']
+    #     algo_sig_str = algosdk.util.sign_bytes(payload.encode('utf-8'),algo_sk)
 
-        if algosdk.util.verify_bytes(payload.encode('utf-8'),algo_sig_str,algo_pk):
-            print( "Algo sig verifies!" )
-            return True
-        return False
+    #     if algosdk.util.verify_bytes(payload.encode('utf-8'),algo_sig_str,algo_pk):
+    #         print( "Algo sig verifies!" )
+    #         return True
+    #     return False
     else:
         return False
 
