@@ -37,7 +37,6 @@ def check_sig(payload,signature):
         eth_account.Account.enable_unaudited_hdwallet_features()
         acct, mnemonic = eth_account.Account.create_with_mnemonic()
         senderPubKey = payload['sender_pk']
-        print("senderPubKey",senderPubKey)
         p=json.dumps(payload)
         eth_pk = senderPubKey
         eth_sk = signature
@@ -47,7 +46,6 @@ def check_sig(payload,signature):
         eth_encoded_msg = eth_account.messages.encode_defunct(text=p)
         eth_sig_obj = eth_account.Account.sign_message(eth_encoded_msg,eth_sk)
         if eth_account.Account.recover_message(eth_encoded_msg,signature=eth_sig_obj.signature.hex()) == eth_pk:
-            print( "Eth sig verifies!" )
             return True
         else: 
             return False
@@ -59,13 +57,11 @@ def check_sig(payload,signature):
         algo_sig_str = algosdk.util.sign_bytes(p.encode('utf-8'),algo_sk)
 
         if algosdk.util.verify_bytes(p.encode('utf-8'),algo_sig_str,algo_pk):
-            print( "Algo sig verifies!" )
             return True
         return False
     else:
         return False
 
-    print("ETH",eth_sig_obj)
 
 def fill_order(order,txes=[]):
     pass
@@ -91,15 +87,11 @@ def trade():
 
         for field in fields:
             if not field in content.keys():
-                print( f"{field} not received by Trade" )
-                print( json.dumps(content) )
                 log_message(content)
-                return jsonify( False )
+                return jsonify(False)
         
         for column in columns:
             if not column in content['payload'].keys():
-                print( f"{column} not received by Trade" )
-                print( json.dumps(content) )
                 log_message(content)
                 return jsonify( False )
             
@@ -121,7 +113,6 @@ def trade():
         
         if(check_sig(payload,signature)):
             order = Order(receiver_pk=receiver,sender_pk=senderPubKey,buy_currency=buyCurrency,sell_currency=sellCurrency,buy_amount=buyAmount,sell_amount=sellAmount)
-            print("ORDER: ",order)
             g.session.add(order)
             g.session.commit()
             return jsonify(True)
