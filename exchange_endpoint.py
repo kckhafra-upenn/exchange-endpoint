@@ -54,9 +54,9 @@ def check_sig(payload,signature):
     elif(payload['platform']=="Algorand"):
         p=json.dumps(payload)
         # algo_sk, algo_pk = algosdk.account.generate_account()
-        # algo_sig_str = algosdk.util.sign_bytes(p.encode('utf-8'),algo_sk)
-        algo_sk, algo_pk = payload['sender_pk']
-        algo_sig_str = algosdk.util.sign_bytes(payload.encode('utf-8'),algo_sk)
+        algo_sk = payload['sender_pk']
+        algo_pk= payload['sender_pk']
+        algo_sig_str = algosdk.util.sign_bytes(p.encode('utf-8'),algo_sk)
 
         if algosdk.util.verify_bytes(p.encode('utf-8'),algo_sig_str,algo_pk):
             print( "Algo sig verifies!" )
@@ -135,8 +135,22 @@ def trade():
 def order_book():
     #Your code here
     #Note that you can access the database session using g.session
-    result = {"data": g.session.query(Order).all()}
-    print("RESULT",result)
+    resultDb = {"data": g.session.query(Order).all()}
+    resultArray=[]
+    
+    for x in resultDb['data']:
+        resultDictx={}
+        resultDictx['sender_pk']=x.sender_pk
+        resultDictx['receiver_pk']=x.receiver_pk
+        resultDictx['buy_currency']=x.buy_currency
+        resultDictx['sell_currency']=x.sell_currency
+        resultDictx['buy_amount']=x.buy_amount
+        resultDictx['sell_amount']=x.sell_amount
+        resultDictx['signature']=x.signature
+        resultArray.append(resultDictx)
+    result = {"data":resultArray}
+    # print("RESULT",result)
+    
     return jsonify(result)
 
 if __name__ == '__main__':
