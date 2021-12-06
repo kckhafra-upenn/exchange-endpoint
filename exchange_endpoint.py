@@ -85,15 +85,15 @@ def trade():
         columns = [ "sender_pk", "receiver_pk", "buy_currency", "sell_currency", "buy_amount", "sell_amount", "platform" ]
         fields = [ "sig", "payload" ]
 
-        for field in fields:
-            if not field in content.keys():
-                log_message(content)
-                return jsonify(False)
+        # for field in fields:
+        #     if not field in content.keys():
+        #         log_message(content)
+        #         return jsonify(False)
         
-        for column in columns:
-            if not column in content['payload'].keys():
-                log_message(content)
-                return jsonify(False)
+        # for column in columns:
+        #     if not column in content['payload'].keys():
+        #         log_message(content)
+        #         return jsonify(False)
             
         #Your code here
         #Note that you can access the database session using g.session
