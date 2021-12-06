@@ -51,19 +51,19 @@ def check_sig(payload,signature):
     #         return True
     #     else: 
     #         return False
-    if(payload['platform']=="Algorand"):
-        p=json.dumps(payload)
-        # algo_sk, algo_pk = algosdk.account.generate_account()
-        algo_sk = payload['sender_pk']
-        algo_pk= payload['sender_pk']
-        algo_sig_str = algosdk.util.sign_bytes(p.encode('utf-8'),algo_sk)
+    # if(payload['platform']=="Algorand"):
+    #     p=json.dumps(payload)
+    #     # algo_sk, algo_pk = algosdk.account.generate_account()
+    #     algo_sk = payload['sender_pk']
+    #     algo_pk= payload['sender_pk']
+    #     algo_sig_str = algosdk.util.sign_bytes(p.encode('utf-8'),algo_sk)
 
-        if algosdk.util.verify_bytes(p.encode('utf-8'),algo_sig_str,algo_pk):
-            return True
-        else:
-            return False
-    else:
-        return False
+    #     if algosdk.util.verify_bytes(p.encode('utf-8'),algo_sig_str,algo_pk):
+    #         return True
+    #     else:
+    #         return False
+    # else:
+    #     return False
 
 
 # def fill_order(order,txes=[]):
