@@ -85,15 +85,15 @@ def trade():
         columns = [ "sender_pk", "receiver_pk", "buy_currency", "sell_currency", "buy_amount", "sell_amount", "platform" ]
         fields = [ "sig", "payload" ]
 
-        # for field in fields:
-        #     if not field in content.keys():
-        #         log_message(content)
-        #         return jsonify(False)
+        for field in fields:
+            if not field in content.keys():
+                log_message(content)
+                return jsonify(False)
         
-        # for column in columns:
-        #     if not column in content['payload'].keys():
-        #         log_message(content)
-        #         return jsonify(False)
+        for column in columns:
+            if not column in content['payload'].keys():
+                log_message(content)
+                return jsonify(False)
             
         #Your code here
         #Note that you can access the database session using g.session
@@ -111,13 +111,13 @@ def trade():
         # TODO: Add the order to the database
         # TODO: Fill the order
         
-        if(check_sig(payload,signature)):
-            order = Order(receiver_pk=receiver,sender_pk=senderPubKey,buy_currency=buyCurrency,sell_currency=sellCurrency,buy_amount=buyAmount,sell_amount=sellAmount)
-            g.session.add(order)
-            g.session.commit()
-            return jsonify(True)
-        else:
-            return jsonify(False)
+        # if(check_sig(payload,signature)):
+        #     order = Order(receiver_pk=receiver,sender_pk=senderPubKey,buy_currency=buyCurrency,sell_currency=sellCurrency,buy_amount=buyAmount,sell_amount=sellAmount)
+        #     g.session.add(order)
+        #     g.session.commit()
+        #     return jsonify(True)
+        # else:
+        #     return jsonify(False)
         
         # TODO: Be sure to return jsonify(True) or jsonify(False) depending on if the method was successful
         return jsonify(False)
