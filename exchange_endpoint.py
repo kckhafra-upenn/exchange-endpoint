@@ -41,6 +41,8 @@ def check_sig(payload,signature):
         p=json.dumps(payload)
         eth_pk = senderPubKey
         eth_sk = signature
+        # eth_pk = acct.address
+        # eth_sk = acct.key
 
         eth_encoded_msg = eth_account.messages.encode_defunct(text=p)
         eth_sig_obj = eth_account.Account.sign_message(eth_encoded_msg,eth_sk)
@@ -50,10 +52,13 @@ def check_sig(payload,signature):
         else: 
             return False
     elif(payload['platform']=="Algorand"):
+        p=json.dumps(payload)
+        # algo_sk, algo_pk = algosdk.account.generate_account()
+        # algo_sig_str = algosdk.util.sign_bytes(p.encode('utf-8'),algo_sk)
         algo_sk, algo_pk = payload['sender_pk']
         algo_sig_str = algosdk.util.sign_bytes(payload.encode('utf-8'),algo_sk)
 
-        if algosdk.util.verify_bytes(payload.encode('utf-8'),algo_sig_str,algo_pk):
+        if algosdk.util.verify_bytes(p.encode('utf-8'),algo_sig_str,algo_pk):
             print( "Algo sig verifies!" )
             return True
         return False
@@ -128,7 +133,6 @@ def trade():
 
 @app.route('/order_book')
 def order_book():
-    print( f"content = {json.dumps(content)}" )
     #Your code here
     #Note that you can access the database session using g.session
     result = {"data": g.session.query(Order).all()}
