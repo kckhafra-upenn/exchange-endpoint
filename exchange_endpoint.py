@@ -58,7 +58,8 @@ def check_sig(payload,signature):
 
         if algosdk.util.verify_bytes(p.encode('utf-8'),algo_sig_str,algo_pk):
             return True
-        return False
+        else:
+            return False
     else:
         return False
 
@@ -111,7 +112,7 @@ def trade():
         # TODO: Add the order to the database
         # TODO: Fill the order
         
-        if(check_sig(payload,signature)):
+        if(check_sig(payload,signature)==True):
             order = Order(receiver_pk=receiver,sender_pk=senderPubKey,buy_currency=buyCurrency,sell_currency=sellCurrency,buy_amount=buyAmount,sell_amount=sellAmount)
             g.session.add(order)
             g.session.commit()
@@ -120,7 +121,7 @@ def trade():
             return jsonify(False)
         
         # TODO: Be sure to return jsonify(True) or jsonify(False) depending on if the method was successful
-    return jsonify(False)
+   
 
 @app.route('/order_book')
 def order_book():
