@@ -50,7 +50,6 @@ def check_sig(payload,signature):
         else: 
             return False
     elif(payload['platform']=="Algorand"):
-        p=""
         p=json.dumps(payload)
         # algo_sk, algo_pk = algosdk.account.generate_account()
         algo_sk = payload['sender_pk']
@@ -111,11 +110,11 @@ def trade():
         # TODO: Check the signature
         # TODO: Add the order to the database
         # TODO: Fill the order
-        
-        if(check_sig(payload,signature)):
+        verifyer = check_sig(payload,signature)
+        if(verifyer):
             order = Order(receiver_pk=receiver,sender_pk=senderPubKey,buy_currency=buyCurrency,sell_currency=sellCurrency,buy_amount=buyAmount,sell_amount=sellAmount)
-            # g.session.add(order)
-            # g.session.commit()
+            g.session.add(order)
+            g.session.commit()
             return jsonify(True)
         else:
             return jsonify(False)
