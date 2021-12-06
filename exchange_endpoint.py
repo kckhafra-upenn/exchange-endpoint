@@ -114,8 +114,8 @@ def trade():
         
         if(check_sig(payload,signature)):
             order = Order(receiver_pk=receiver,sender_pk=senderPubKey,buy_currency=buyCurrency,sell_currency=sellCurrency,buy_amount=buyAmount,sell_amount=sellAmount)
-            g.session.add(order)
-            g.session.commit()
+            # g.session.add(order)
+            # g.session.commit()
             return jsonify(True)
         else:
             return jsonify(False)
