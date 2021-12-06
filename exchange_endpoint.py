@@ -17,6 +17,8 @@ engine = create_engine('sqlite:///orders.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 
+# session = DBSession()
+# print("S",session.query(Order).delete())
 app = Flask(__name__)
 
 @app.before_request
