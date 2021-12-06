@@ -36,8 +36,8 @@ def shutdown_session(response_or_exc):
 
 def check_sig(payload,signature):
     if(payload['platform']=="Ethereum"):
-        eth_account.Account.enable_unaudited_hdwallet_features()
-        acct, mnemonic = eth_account.Account.create_with_mnemonic()
+        # eth_account.Account.enable_unaudited_hdwallet_features()
+        # acct, mnemonic = eth_account.Account.create_with_mnemonic()
         senderPubKey = payload['sender_pk']
         p=json.dumps(payload)
         eth_pk = senderPubKey
