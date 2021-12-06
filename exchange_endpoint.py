@@ -129,7 +129,7 @@ def trade():
             return jsonify(False)
         
         # TODO: Be sure to return jsonify(True) or jsonify(False) depending on if the method was successful
-        
+    return jsonify(False)
 
 @app.route('/order_book')
 def order_book():
