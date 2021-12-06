@@ -37,8 +37,7 @@ def check_sig(payload,signature):
         eth_account.Account.enable_unaudited_hdwallet_features()
         acct, mnemonic = eth_account.Account.create_with_mnemonic()
         senderPubKey = payload['sender_pk']
-        p=""
-        # p=json.dumps(payload)
+        p=json.dumps(payload)
         eth_pk = senderPubKey
         eth_sk = signature
         # eth_pk = acct.address
@@ -52,7 +51,7 @@ def check_sig(payload,signature):
             return False
     elif(payload['platform']=="Algorand"):
         p=""
-        # p=json.dumps(payload)
+        p=json.dumps(payload)
         # algo_sk, algo_pk = algosdk.account.generate_account()
         algo_sk = payload['sender_pk']
         algo_pk= payload['sender_pk']
@@ -66,8 +65,8 @@ def check_sig(payload,signature):
         return False
 
 
-def fill_order(order,txes=[]):
-    pass
+# def fill_order(order,txes=[]):
+#     pass
   
 def log_message(d):
     payload = json.dumps(d['payload'])
