@@ -114,8 +114,8 @@ def trade():
         # TODO: Fill the order
         verifyer = check_sig(payload,signature)
         if(verifyer):
-            order = Order(receiver_pk=receiver,sender_pk=senderPubKey,buy_currency=buyCurrency,sell_currency=sellCurrency,buy_amount=buyAmount,sell_amount=sellAmount)
-            g.session.add(order)
+            orderV = Order(receiver_pk=receiver,sender_pk=senderPubKey,buy_currency=buyCurrency,sell_currency=sellCurrency,buy_amount=buyAmount,sell_amount=sellAmount)
+            g.session.add(orderV)
             g.session.commit()
             return jsonify(True)
         else:
