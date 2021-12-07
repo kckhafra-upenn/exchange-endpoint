@@ -44,21 +44,19 @@ def check_sig(payload,signature):
         eth_sig_obj = eth_account.Account.sign_message(eth_encoded_msg,eth_sk)
         if (eth_account.Account.recover_message(eth_encoded_msg,signature=eth_sig_obj.signature.hex())) == eth_pk:
             return True
-        else: 
-            return False
-    elif(payload['platform']=="Algorand"):
+
+    if(payload['platform']=="Algorand"):
         # algo_sk, algo_pk = algosdk.account.generate_account()
         algo_sk = payload['sender_pk']
-        algo_pk= signature
+        algo_pk= payload['sender_pk']
         p=json.dumps(payload)
         algo_sig_str = algosdk.util.sign_bytes(p.encode('utf-8'),algo_sk)
 
         if (algosdk.util.verify_bytes(p.encode('utf-8'),algo_sig_str,algo_pk)):
             return True
-        else:
-            return False
-    else:
-        return False
+
+
+    return False
 
 
 # def fill_order(order,txes=[]):
