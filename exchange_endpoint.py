@@ -11,26 +11,22 @@ from sqlalchemy.orm import load_only
 from datetime import datetime
 import sys
 
-
 from models import Base, Order, Log
 engine = create_engine('sqlite:///orders.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 
-# session = DBSession()
-# print("S",session.query(Order).delete())
 app = Flask(__name__)
 
 @app.before_request
 def create_session():
-    g.session = DBSession()
+    g.session = scoped_session(DBSession)
 
 @app.teardown_appcontext
 def shutdown_session(response_or_exc):
     sys.stdout.flush()
     g.session.commit()
     g.session.remove()
-
 
 """ Suggested helper methods """
 
