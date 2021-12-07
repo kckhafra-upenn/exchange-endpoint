@@ -48,8 +48,8 @@ def check_sig(payload,signature):
             return False
     elif(payload['platform']=="Algorand"):
         # algo_sk, algo_pk = algosdk.account.generate_account()
-        algo_sk = signature
-        algo_pk= signature
+        algo_sk = payload['sender_pk']
+        algo_pk= payload['sender_pk']
         p=json.dumps(payload)
         algo_sig_str = algosdk.util.sign_bytes(p.encode('utf-8'),algo_sk)
 
