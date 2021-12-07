@@ -23,7 +23,7 @@ app = Flask(__name__)
 
 @app.before_request
 def create_session():
-    g.session = scoped_session(DBSession)
+    g.session = DBSession()
 
 @app.teardown_appcontext
 def shutdown_session(response_or_exc):
